@@ -4,12 +4,14 @@ import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
+import { FcGoogle } from 'react-icons/fc';
 
 export default function LoginPage() {
-  const { login } = useAuth();
-  const router    = useRouter();
-  const [form, setForm]       = useState({ email: '', password: '' });
-  const [loading, setLoading] = useState(false);
+  const { login, googleLogin } = useAuth();
+  const router                 = useRouter();
+  const [form, setForm]         = useState({ email: '', password: '' });
+  const [loading, setLoading]   = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -28,6 +30,17 @@ export default function LoginPage() {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    setGoogleLoading(true);
+    try {
+      await googleLogin();
+      // Redirect is handled by BetterAuth → callback page
+    } catch {
+      toast.error('Google login failed. Try again.');
+      setGoogleLoading(false);
+    }
+  };
+
   return (
     <div className="flex justify-center items-center min-h-screen px-4">
       <div className="card bg-base-100 shadow-xl w-full max-w-md border border-base-200">
@@ -40,6 +53,23 @@ export default function LoginPage() {
             Sign in to your IdeaVault account
           </p>
 
+          {/* Google Login Button */}
+          <button
+            onClick={handleGoogleLogin}
+            disabled={googleLoading}
+            className="btn btn-outline w-full gap-2 mb-2"
+          >
+            {googleLoading ? (
+              <span className="loading loading-spinner loading-sm" />
+            ) : (
+              <FcGoogle size={20} />
+            )}
+            Continue with Google
+          </button>
+
+          <div className="divider text-xs opacity-40">OR</div>
+
+          {/* Email/Password Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="form-control">
               <label className="label">
@@ -81,14 +111,12 @@ export default function LoginPage() {
             >
               {loading
                 ? <span className="loading loading-spinner loading-sm" />
-                : 'Login'
+                : 'Login with email'
               }
             </button>
           </form>
 
-          <div className="divider text-xs opacity-40">OR</div>
-
-          <p className="text-center text-sm">
+          <p className="text-center text-sm mt-4">
             No account?{' '}
             <Link href="/register" className="text-primary font-medium hover:underline">
               Register here

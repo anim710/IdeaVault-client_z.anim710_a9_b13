@@ -4,12 +4,14 @@ import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
+import { FcGoogle } from 'react-icons/fc';
 
 export default function RegisterPage() {
-  const { register } = useAuth();
-  const router       = useRouter();
-  const [form, setForm]       = useState({ name: '', email: '', photo: '', password: '' });
-  const [loading, setLoading] = useState(false);
+  const { register, googleLogin } = useAuth();
+  const router                    = useRouter();
+  const [form, setForm]            = useState({ name: '', email: '', photo: '', password: '' });
+  const [loading, setLoading]      = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -45,11 +47,21 @@ export default function RegisterPage() {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    setGoogleLoading(true);
+    try {
+      await googleLogin();
+    } catch {
+      toast.error('Google sign-up failed. Try again.');
+      setGoogleLoading(false);
+    }
+  };
+
   const fields = [
-    { label: 'Full name',           name: 'name',     type: 'text',     placeholder: 'Your full name',          required: true  },
-    { label: 'Email',               name: 'email',    type: 'email',    placeholder: 'you@example.com',         required: true  },
-    { label: 'Photo URL (optional)',name: 'photo',    type: 'url',      placeholder: 'https://...',             required: false },
-    { label: 'Password',            name: 'password', type: 'password', placeholder: 'Min 6 chars, A-z + a-z', required: true  },
+    { label: 'Full name',            name: 'name',     type: 'text',     placeholder: 'Your full name',          required: true  },
+    { label: 'Email',                name: 'email',    type: 'email',    placeholder: 'you@example.com',         required: true  },
+    { label: 'Photo URL (optional)', name: 'photo',    type: 'url',      placeholder: 'https://...',             required: false },
+    { label: 'Password',             name: 'password', type: 'password', placeholder: 'Min 6 chars, A-z + a-z', required: true  },
   ];
 
   return (
@@ -63,6 +75,22 @@ export default function RegisterPage() {
           <p className="text-center text-sm text-base-content/60 mb-6">
             Join the IdeaVault community
           </p>
+
+          {/* Google Sign Up */}
+          <button
+            onClick={handleGoogleLogin}
+            disabled={googleLoading}
+            className="btn btn-outline w-full gap-2 mb-2"
+          >
+            {googleLoading ? (
+              <span className="loading loading-spinner loading-sm" />
+            ) : (
+              <FcGoogle size={20} />
+            )}
+            Sign up with Google
+          </button>
+
+          <div className="divider text-xs opacity-40">OR</div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {fields.map((f) => (

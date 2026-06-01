@@ -1,16 +1,18 @@
 'use client';
 import { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
+import { authClient } from '@/lib/authClient';
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser]       = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Load from localStorage on refresh
   useEffect(() => {
-    const token   = localStorage.getItem('ideavault_token');
-    const saved   = localStorage.getItem('ideavault_user');
+    const token = localStorage.getItem('ideavault_token');
+    const saved = localStorage.getItem('ideavault_user');
     if (token && saved) setUser(JSON.parse(saved));
     setLoading(false);
   }, []);
@@ -21,14 +23,18 @@ export function AuthProvider({ children }) {
     setUser(user);
   };
 
+  // Email/password login — hits our Express server
   const login = async (email, password) => {
+  
     const res = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
       { email, password }
     );
+    
     save(res.data.token, res.data.user);
   };
 
+  // Email/password register — hits our Express server
   const register = async (name, email, photo, password) => {
     const res = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/auth/register`,
@@ -37,18 +43,25 @@ export function AuthProvider({ children }) {
     save(res.data.token, res.data.user);
   };
 
-  const googleLogin = async (profile) => {
-    const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/google`,
-      profile
-    );
-    save(res.data.token, res.data.user);
+  // Google login via BetterAuth — then syncs with our Express server
+  const googleLogin = async () => {
+    try {
+      // Step 1: BetterAuth handles the Google OAuth popup/redirect
+      await authClient.signIn.social({
+        provider: 'google',
+        callbackURL: '/auth/google/callback',
+      });
+      // The rest happens in the callback page (see Step 8)
+    } catch (err) {
+      throw new Error('Google login failed');
+    }
   };
 
   const logout = () => {
     localStorage.removeItem('ideavault_token');
     localStorage.removeItem('ideavault_user');
     setUser(null);
+    authClient.signOut();
   };
 
   const updateUser = (updated) => {
@@ -56,9 +69,22 @@ export function AuthProvider({ children }) {
     setUser(updated);
   };
 
+  // Called from the Google callback page after OAuth completes
+  const syncGoogleUser = async (profile) => {
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/google`,
+      profile
+    );
+    save(res.data.token, res.data.user);
+  };
+
   return (
     <AuthContext.Provider
-      value={{ user, loading, login, register, googleLogin, logout, updateUser }}
+      value={{
+        user, loading,
+        login, register, googleLogin,
+        logout, updateUser, syncGoogleUser,
+      }}
     >
       {children}
     </AuthContext.Provider>

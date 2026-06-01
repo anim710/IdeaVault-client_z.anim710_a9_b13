@@ -64,7 +64,7 @@ export default function AddIdeaPage() {
           {/* Title */}
           <div className="form-control">
             <label className="label">
-              <span className="label-text font-medium">Idea title *</span>
+              <span className="label-text font-medium">Idea title * : &nbsp;</span>
             </label>
             <input
               name="title"
@@ -80,7 +80,7 @@ export default function AddIdeaPage() {
           {/* Short description */}
           <div className="form-control">
             <label className="label">
-              <span className="label-text font-medium">Short description *</span>
+              <span className="label-text font-medium">Short description * : &nbsp;</span>
             </label>
             <input
               name="shortDescription"
@@ -96,7 +96,7 @@ export default function AddIdeaPage() {
           {/* Category */}
           <div className="form-control">
             <label className="label">
-              <span className="label-text font-medium">Category *</span>
+              <span className="label-text font-medium">Category * : &nbsp;</span>
             </label>
             <select
               name="category"
@@ -111,7 +111,7 @@ export default function AddIdeaPage() {
           {/* Problem */}
           <div className="form-control">
             <label className="label">
-              <span className="label-text font-medium">Problem statement</span>
+              <span className="label-text font-medium">Problem statement : &nbsp;</span>
             </label>
             <textarea
               name="problemStatement"
@@ -125,7 +125,7 @@ export default function AddIdeaPage() {
           {/* Solution */}
           <div className="form-control">
             <label className="label">
-              <span className="label-text font-medium">Proposed solution</span>
+              <span className="label-text font-medium">Proposed solution : &nbsp;</span>
             </label>
             <textarea
               name="proposedSolution"
@@ -139,7 +139,7 @@ export default function AddIdeaPage() {
           {/* Detailed description */}
           <div className="form-control">
             <label className="label">
-              <span className="label-text font-medium">Detailed description</span>
+              <span className="label-text font-medium">Detailed description : &nbsp;</span>
             </label>
             <textarea
               name="detailedDescription"
@@ -154,7 +154,7 @@ export default function AddIdeaPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="form-control">
               <label className="label">
-                <span className="label-text font-medium">Target audience</span>
+                <span className="label-text font-medium">Target audience : &nbsp;</span>
               </label>
               <input
                 name="targetAudience"
@@ -167,7 +167,7 @@ export default function AddIdeaPage() {
             </div>
             <div className="form-control">
               <label className="label">
-                <span className="label-text font-medium">Estimated budget ($)</span>
+                <span className="label-text font-medium">Estimated budget ($) : &nbsp;</span>
               </label>
               <input
                 name="estimatedBudget"
@@ -183,8 +183,8 @@ export default function AddIdeaPage() {
           {/* Tags */}
           <div className="form-control">
             <label className="label">
-              <span className="label-text font-medium">Tags</span>
-              <span className="label-text-alt opacity-50">comma separated</span>
+              <span className="label-text font-medium">Tags : &nbsp;</span>
+              <span className="label-text-alt opacity-50">comma separated &nbsp;</span>
             </label>
             <input
               name="tags"
@@ -199,7 +199,7 @@ export default function AddIdeaPage() {
           {/* Image URL */}
           <div className="form-control">
             <label className="label">
-              <span className="label-text font-medium">Image URL</span>
+              <span className="label-text font-medium">Image URL : &nbsp;</span>
             </label>
             <input
               name="imageURL"

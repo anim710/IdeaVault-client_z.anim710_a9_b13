@@ -165,7 +165,7 @@ export default function HomePage() {
         </Link>
 
         <Link href="/ideas" className="btn btn-outline btn-lg">
-          Go to Dashboard
+          Go to Ideas Board
         </Link>
       </div>
     </div>

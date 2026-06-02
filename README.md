@@ -1,6 +1,6 @@
 # 💡 IdeaVault
 
-**Live Site:** https://ideavault.vercel.app
+**Live Site:** [https://ideavault.vercel.app](https://idea-vault-client-z-anim710-a9-b13.vercel.app/)
 
 A community platform to share, explore, and validate startup ideas.
 

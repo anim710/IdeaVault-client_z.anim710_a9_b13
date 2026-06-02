@@ -4,6 +4,7 @@ import { publicApi } from '@/lib/api';
 import IdeaCard from '@/components/IdeaCard';
 import Link from 'next/link';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import { useAuth } from '@/context/AuthContext';
 
 const slides = [
   {
@@ -42,6 +43,7 @@ const steps = [
 ];
 
 export default function HomePage() {
+    const { user } = useAuth();
   const [slide, setSlide]               = useState(0);
   const [trending, setTrending]         = useState([]);
   const [trendingLoading, setTrendingLoading] = useState(true);
@@ -146,15 +148,43 @@ export default function HomePage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="max-w-2xl mx-auto text-center px-4 py-20">
-        <h2 className="text-3xl font-bold mb-4">Ready to share your idea?</h2>
-        <p className="text-base-content/60 mb-8">
-          Join thousands of builders validating startup ideas on IdeaVault.
-        </p>
-        <Link href="/register" className="btn btn-primary btn-lg">
-          Get started free
+      <section className="max-w-4xl mx-auto px-4 py-20">
+  {user ? (
+    <div className="bg-base-200 rounded-3xl p-10 text-center">
+      <h2 className="text-3xl font-bold mb-4">
+        Ready to launch your next idea?
+      </h2>
+
+      <p className="text-base-content/60 mb-8 max-w-2xl mx-auto">
+        Share a startup concept, collect feedback, and validate your next big thing.
+      </p>
+
+      <div className="flex flex-wrap justify-center gap-4">
+        <Link href="/add-idea" className="btn btn-primary btn-lg">
+          + Post New Idea
         </Link>
-      </section>
+
+        <Link href="/ideas" className="btn btn-outline btn-lg">
+          Go to Dashboard
+        </Link>
+      </div>
+    </div>
+  ) : (
+    <div className="text-center">
+      <h2 className="text-3xl font-bold mb-4">
+        Ready to share your idea?
+      </h2>
+
+      <p className="text-base-content/60 mb-8">
+        Join thousands of builders validating startup ideas on IdeaVault.
+      </p>
+
+      <Link href="/register" className="btn btn-primary btn-lg">
+        Get started free
+      </Link>
+    </div>
+  )}
+</section>
 
     </div>
   );

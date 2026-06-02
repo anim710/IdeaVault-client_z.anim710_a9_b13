@@ -6,7 +6,14 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-3 gap-10">
 
         <div>
-          <h3 className="text-lg font-bold text-primary mb-3">💡 IdeaVault</h3>
+          <Link href="/" className="flex items-center gap-2">
+            <img
+              src="/ideavault-logo.png"
+              alt="IdeaVault Logo"
+              className="h-15 w-auto object-contain"
+            />
+           
+          </Link>
           <p className="text-sm opacity-60 leading-relaxed">
             Where innovation begins. Share your startup idea and get real
             feedback from the community.

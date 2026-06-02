@@ -34,9 +34,14 @@ export default function Navbar() {
 
       {/* Logo */}
       <div className="navbar-start">
-        <Link href="/" className="text-xl font-bold text-primary">
-          💡 IdeaVault
-        </Link>
+        <Link href="/" className="flex items-center gap-2">
+            <img
+              src="/ideavault-logo.png"
+              alt="IdeaVault Logo"
+              className="h-15 w-auto object-contain"
+            />
+            
+          </Link>
       </div>
 
       {/* Desktop links */}
